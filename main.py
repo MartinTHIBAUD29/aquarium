@@ -1,4 +1,4 @@
-import numpy as np
+import scripts.ui as ui
 
 def main():
     print("Hello, World!")
