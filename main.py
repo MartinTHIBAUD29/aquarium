@@ -1,8 +1,9 @@
-import scripts.ui as ui
+from scripts import ui
 
-def main():
-    print("Hello, World!")
+def run():
+    print("Starting Aquarium Simulation")
+    ui.open_ui()
 
     
 if __name__ == "__main__": 
-    main()
+    run()
