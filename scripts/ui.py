@@ -1,2 +1,3 @@
 import numpy as np
-print("test")
+
+print("UI module loaded")
