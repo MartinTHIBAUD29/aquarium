@@ -6,7 +6,9 @@ def start_ui():
     screen = pygame.display.set_mode(size)
     return screen
 
-
+def render(screen, player_pos):
+        pygame.draw.circle(screen, (255, 0, 0), player_pos, 20)
+        pygame.display.flip()
 
 
 
