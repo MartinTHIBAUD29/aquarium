@@ -6,4 +6,4 @@ class Aquarium():
         self.fish1 = fish.Fish(np.array([500, 400]))
 
     def update_fishes_position(self):
-        return
+        self.fish1.update_position()

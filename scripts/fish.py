@@ -3,7 +3,8 @@ from scripts import world_parameters
 
 class Fish:
     def __init__(self, position):
-        self.position = position
+        self.position_x, self.position_y = position
 
     def update_position(self):
-        return
+        self.position_x += np.random.rand() - 0.5
+        self.position_y += np.random.rand() - 0.5

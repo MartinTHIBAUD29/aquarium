@@ -8,7 +8,8 @@ class UserInterface:
         self.screen = pygame.display.set_mode(self.size)
 
     def render(self, fish):
-        pygame.draw.circle(self.screen, (255, 0, 0), fish.position, 20)
+        self.screen.fill((0, 0, 0))  # clear screen (black)
+        pygame.draw.circle(self.screen, (255, 0, 0), (fish.position_x, fish.position_y), 5)
         pygame.display.flip()
 
 
