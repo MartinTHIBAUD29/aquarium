@@ -1,22 +1,22 @@
 import sys
 import pygame
-from scripts import ui, simulation
-
+from scripts import simulation, ui
 
 
 def run():
     pygame.init()
 
-    
-    screen = ui.start_ui()
-    player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+    user_interface = ui.UserInterface()
+    aquarium = simulation.Aquarium()
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-        simulation.update_position()
-        ui.render(screen, player_pos)
+
+        aquarium.update_position()
+
+        user_interface.render(aquarium.fish_position)
 
     pygame.quit()
 
