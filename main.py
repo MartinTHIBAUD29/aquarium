@@ -1,22 +1,22 @@
 import sys
 import pygame
-from scripts import simulation, ui
+from scripts import aquarium, ui
 
 
 def run():
     pygame.init()
 
-    user_interface = ui.UserInterface()
-    aquarium = simulation.Aquarium()
+    interface = ui.UserInterface()
+    tank = aquarium.Aquarium()
 
-    while True:
+    while interface.running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                interface.running = False
 
-        aquarium.update_position()
+        tank.update_fishes_position()
 
-        user_interface.render(aquarium.fish_position)
+        interface.render(tank.fish1)
 
     pygame.quit()
 
