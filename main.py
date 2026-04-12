@@ -1,4 +1,3 @@
-import sys
 import pygame
 from scripts import aquarium, ui
 
