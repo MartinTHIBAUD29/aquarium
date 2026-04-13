@@ -2,12 +2,10 @@ import numpy as np
 from scripts import world_parameters
 
 class Fish:
-    def __init__(self, identification, position_x, position_y):
-        self.identification = identification
+    def __init__(self, position_x, position_y):
         self.position_x,  self.position_y = position_x, position_y
         self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
         self.neighbors = []
-        #self.field_of_view = (np.random.rand() + 0.6) * 40
         self.field_of_view = 60
         
 

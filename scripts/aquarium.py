@@ -7,7 +7,7 @@ class Aquarium():
         for i in range(world_parameters.NUMBER_OF_FISH):
             fish_position_x = np.random.rand() * world_parameters.SCREEN_WIDTH
             fish_position_y = np.random.rand() * world_parameters.SCREEN_HEIGHT
-            self.fishes.append(fish.Fish(i, fish_position_x, fish_position_y))
+            self.fishes.append(fish.Fish(fish_position_x, fish_position_y))
 
     def update_fishes_neighborhood(self):        
         for current_fish in self.fishes: 
@@ -27,6 +27,6 @@ class Aquarium():
             fish_position_x = np.random.rand() * world_parameters.SCREEN_WIDTH
         if fish_position_y == None:    
             fish_position_y = np.random.rand() * world_parameters.SCREEN_HEIGHT
-            
-        self.fishes.append(fish.Fish(len(self.fishes), fish_position_x, fish_position_y))
+
+        self.fishes.append(fish.Fish(fish_position_x, fish_position_y))
 
