@@ -21,7 +21,7 @@ class Fish:
     def calculate_center_of_mass_neighbors(self):
 
         if len(self.neighbors) == 0:
-            return 
+            return 0,0
         
         center_of_mass_x = 0
         center_of_mass_y = 0
@@ -32,7 +32,6 @@ class Fish:
         center_of_mass_y /= len(self.neighbors)
 
         return center_of_mass_x, center_of_mass_y
-
 
     def cohesion_rule(self):
         center_of_mass_x, center_of_mass_y = self.calculate_center_of_mass_neighbors()
@@ -47,15 +46,22 @@ class Fish:
                 speed_separation_rule_x += self.position_x - neighbor.position_x
                 speed_separation_rule_y += self.position_y - neighbor.position_y
         return speed_separation_rule_x, speed_separation_rule_y
+    
 
-    def alignment_rule(self):
-        mean_speed_of_neighbors_x, mean_speed_of_neighbors_y = 0,0
+    def calculate_mean_speed_neighbors(self):
+        if len(self.neighbors) == 0:
+            return 0, 0
+        mean_speed_of_neighbors_x, mean_speed_of_neighbors_y = 0, 0
         for neighbor in self.neighbors:
             mean_speed_of_neighbors_x += neighbor.speed_x
             mean_speed_of_neighbors_y += neighbor.speed_y
         mean_speed_of_neighbors_x /= len(self.neighbors)
         mean_speed_of_neighbors_y /= len(self.neighbors)
+
+        return mean_speed_of_neighbors_x, mean_speed_of_neighbors_y
         
+    def alignment_rule(self):
+        mean_speed_of_neighbors_x, mean_speed_of_neighbors_y = self.calculate_mean_speed_neighbors()        
         speed_alignment_rule_x = (mean_speed_of_neighbors_x - self.speed_x) / 5
         speed_alignment_rule_y = (mean_speed_of_neighbors_y - self.speed_y) / 5
         return speed_alignment_rule_x, speed_alignment_rule_y
@@ -66,8 +72,8 @@ class Fish:
         speed_cohesion_rule_x, speed_cohesion_rule_y = self.cohesion_rule()
         speed_separation_rule_x, speed_separation_rule_y = self.separation_rule()
         speed_alignment_rule_x, speed_alignment_rule_y = self.alignment_rule()
-        self.speed_x += +speed_cohesion_rule_x + speed_separation_rule_x + speed_alignment_rule_x
-        self.speed_y += +speed_cohesion_rule_y + speed_separation_rule_y + speed_alignment_rule_y
+        self.speed_x += 0.01 * speed_cohesion_rule_x + 0.05 * speed_separation_rule_x + 0.125 * speed_alignment_rule_x
+        self.speed_y += 0.01 * speed_cohesion_rule_y + 0.05 * speed_separation_rule_y + 0.125 * speed_alignment_rule_y
 
         max_speed = 0.5
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
