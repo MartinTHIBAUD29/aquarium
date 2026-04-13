@@ -8,7 +8,7 @@ class Fish:
         self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
         self.neighbors = []
         #self.field_of_view = (np.random.rand() + 0.6) * 40
-        self.field_of_view = 40
+        self.field_of_view = 60
         
 
     def distance_to(self, fish):
@@ -72,10 +72,10 @@ class Fish:
         speed_cohesion_rule_x, speed_cohesion_rule_y = self.cohesion_rule()
         speed_separation_rule_x, speed_separation_rule_y = self.separation_rule()
         speed_alignment_rule_x, speed_alignment_rule_y = self.alignment_rule()
-        self.speed_x += 0.01 * speed_cohesion_rule_x + 0.05 * speed_separation_rule_x + 0.125 * speed_alignment_rule_x
-        self.speed_y += 0.01 * speed_cohesion_rule_y + 0.05 * speed_separation_rule_y + 0.125 * speed_alignment_rule_y
+        self.speed_x += 0.01 * speed_cohesion_rule_x + 0.001 * speed_separation_rule_x + 0.200 * speed_alignment_rule_x
+        self.speed_y += 0.01 * speed_cohesion_rule_y + 0.001 * speed_separation_rule_y + 0.200 * speed_alignment_rule_y
 
-        max_speed = 0.5
+        max_speed = 0.3
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
 
         if speed > max_speed:
