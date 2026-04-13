@@ -8,7 +8,7 @@ class Fish:
         self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
         self.neighbors = []
         #self.field_of_view = (np.random.rand() + 0.5) * 40
-        self.field_of_view = 40
+        self.field_of_view = 200
         
 
     def distance_to(self, fish):
@@ -36,8 +36,8 @@ class Fish:
 
     def concentration_rule(self):
         center_of_mass_x, center_of_mass_y = self.calculate_center_of_mass_neighbors()
-        speed_contration_rule_x = (self.position_x - center_of_mass_x) / 100
-        speed_contration_rule_y = (self.position_y - center_of_mass_y) / 100
+        speed_contration_rule_x = (self.position_x - center_of_mass_x) / 1000
+        speed_contration_rule_y = (self.position_y - center_of_mass_y) / 1000
         return speed_contration_rule_x , speed_contration_rule_y
 
 
@@ -46,7 +46,7 @@ class Fish:
         self.speed_x -= speed_contration_rule_x
         self.speed_y -= speed_contration_rule_y
 
-        max_speed = 1
+        max_speed = 0.5
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
 
         if speed > max_speed:
@@ -58,3 +58,10 @@ class Fish:
         self.calculate_speed()
         self.position_x += self.speed_x
         self.position_y += self.speed_y
+
+        if self.position_x < 0 or self.position_x > world_parameters.SCREEN_WIDTH :
+            self.speed_x = - self.speed_x
+        
+        if self.position_y < 0 or self.position_y > world_parameters.SCREEN_HEIGHT :
+            self.speed_y = - self.speed_y
+
