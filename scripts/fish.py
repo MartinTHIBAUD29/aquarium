@@ -104,4 +104,5 @@ class Fish:
         elif self.position_y > world_parameters.SCREEN_HEIGHT :
             self.speed_y = - self.speed_y
             self.position_y = world_parameters.SCREEN_HEIGHT
+        
 
