@@ -7,7 +7,9 @@ class Fish:
         self.position_x,  self.position_y = position_x, position_y
         self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
         self.neighbors = []
-        self.field_of_view = (np.random.rand() + 0.5) * 100 
+        #self.field_of_view = (np.random.rand() + 0.5) * 40
+        self.field_of_view = 40
+        
 
     def distance_to(self, fish):
         distance = np.sqrt(
@@ -33,13 +35,23 @@ class Fish:
 
 
     def concentration_rule(self):
-        center_of_mass = self.calculate_center_of_mass_neighbors()
+        center_of_mass_x, center_of_mass_y = self.calculate_center_of_mass_neighbors()
+        speed_contration_rule_x = (self.position_x - center_of_mass_x) / 100
+        speed_contration_rule_y = (self.position_y - center_of_mass_y) / 100
+        return speed_contration_rule_x , speed_contration_rule_y
 
 
     def calculate_speed(self):
         speed_contration_rule_x, speed_contration_rule_y = self.concentration_rule()
-        self.speed_x += speed_contration_rule_x
-        self.speed_y += speed_contration_rule_y
+        self.speed_x -= speed_contration_rule_x
+        self.speed_y -= speed_contration_rule_y
+
+        max_speed = 1
+        speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
+
+        if speed > max_speed:
+            self.speed_x = (self.speed_x / speed) * max_speed
+            self.speed_y = (self.speed_y / speed) * max_speed
 
 
     def update_position(self):
