@@ -10,7 +10,7 @@ class UserInterface:
     def render(self, fishes):
         self.screen.fill((0, 0, 0))  # clear screen (black)
         for fish in fishes:
-            pygame.draw.circle(self.screen, fish.color, (fish.position_x, fish.position_y), fish.size)
+            pygame.draw.circle(self.screen, (255, 0, 0), (fish.position_x, fish.position_y), 5)
         pygame.display.flip()
 
 

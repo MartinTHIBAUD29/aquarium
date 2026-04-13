@@ -6,8 +6,17 @@ class Fish:
         self.identification = identification
         self.position_x,  self.position_y = position_x, position_y
         self.speed_x, self.speed_y = np.random.rand() - 0.5, np.random.rand() - 0.5
-        self.color = (255, 0, 0)  # red color for the fish
-        self.size = 5  # radius of the fish
+        self.neighbors = []
+        self.field_of_view = np.random.rand() + 0.5 * 30  # distance within which the fish can see other fishes
+
+    def distance_to(self, fish):
+        distance = np.sqrt(
+                (self.position_x - fish.position_x)**2 + 
+                ((self.position_y - fish.position_y)**2))
+        return distance
+    
+    def calculate_speed(self):
+        pass
 
     def update_position(self):
         self.position_x += self.speed_x
