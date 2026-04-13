@@ -21,9 +21,12 @@ class Aquarium():
         for fish in self.fishes:
             fish.update_position()
             
-
-    def add_new_fish(self):
-        fish_position_x = np.random.rand() * world_parameters.SCREEN_WIDTH
-        fish_position_y = np.random.rand() * world_parameters.SCREEN_HEIGHT
+    
+    def add_new_fish(self, fish_position_x = None, fish_position_y= None):
+        if fish_position_x == None:
+            fish_position_x = np.random.rand() * world_parameters.SCREEN_WIDTH
+        if fish_position_y == None:    
+            fish_position_y = np.random.rand() * world_parameters.SCREEN_HEIGHT
+            
         self.fishes.append(fish.Fish(len(self.fishes), fish_position_x, fish_position_y))
 

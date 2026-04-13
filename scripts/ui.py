@@ -19,6 +19,9 @@ class UserInterface:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 aquarium.add_new_fish()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            aquarium.add_new_fish(*event.pos)
+        
 
 
 
