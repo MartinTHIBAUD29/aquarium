@@ -10,8 +10,7 @@ def run():
 
     while interface.running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                interface.running = False
+            interface.handle_event(event, tank)
 
         tank.update_fishes_position()
 

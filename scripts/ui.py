@@ -10,9 +10,18 @@ class UserInterface:
     def render(self, fishes):
         self.screen.fill((0, 0, 0))  # clear screen (black)
         for fish in fishes:
-            pygame.draw.circle(self.screen, fish.color, (fish.position_x, fish.position_y), fish.size)
+            pygame.draw.circle(self.screen, (255, 0, 0), (fish.position_x, fish.position_y), 5)
         pygame.display.flip()
 
+    def handle_event(self, event, aquarium):
+        if event.type == pygame.QUIT:
+                self.running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                aquarium.add_new_fish()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            aquarium.add_new_fish(*event.pos)
+        
 
 
 
