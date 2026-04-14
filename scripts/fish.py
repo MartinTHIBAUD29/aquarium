@@ -17,12 +17,28 @@ class Fish:
         return distance
      
 
-    def calculate_speed(self, boids_calculation):
+    def calculate_boids_speed(self, boids_calculation):
         
         boids_speed_x, boids_speed_y = boids_calculation.calculate_boids_speed(self)
         self.speed_x += boids_speed_x
         self.speed_y += boids_speed_y
     
+    def go_for_closest_food(self): 
+        closest_food = min(self.food_in_sight, key = self.food_in_sight.get)
+
+        speed_x = (closest_food.position_x - self.position_x) / 100
+        speed_y = (closest_food.position_y - self.position_y) / 100
+        
+        self.speed_x += speed_x
+        self.speed_y += speed_y
+
+
+    def update_position(self, boids_calculation):
+        if self.food_in_sight == {}:
+            self.calculate_boids_speed(boids_calculation)
+        else:
+            self.go_for_closest_food()
+
         max_speed = 0.3
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
 
@@ -30,13 +46,9 @@ class Fish:
             self.speed_x = (self.speed_x / speed) * max_speed
             self.speed_y = (self.speed_y / speed) * max_speed
 
-
-    def update_position(self, boids_calculation):
-        self.calculate_speed(boids_calculation)
-
         self.position_x += self.speed_x
         self.position_y += self.speed_y
-        
+            
         self.handle_obstacles()
 
     def handle_obstacles(self):
