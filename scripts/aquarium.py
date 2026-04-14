@@ -36,10 +36,15 @@ class Aquarium():
                     current_fish.neighbors.append(other)
 
             current_fish.food_in_sight = {}
+            food_to_remove = []
             for food in self.foods:
                 distance_to_food = current_fish.distance_to(food.position_x, food.position_y)
-                if distance_to_food < food.range_of_detection:
+                if distance_to_food < 2:
+                    food_to_remove.append(food)
+                elif distance_to_food < food.range_of_detection:
                         current_fish.food_in_sight[food] = distance_to_food
+            
+                
 
 
      
@@ -47,7 +52,10 @@ class Aquarium():
         self.update_fishes_neighborhood()
         for fish in self.fishes:
             fish.update_position(self.boids_calculation)
-            
+
+                
+        
+
     
     
 
