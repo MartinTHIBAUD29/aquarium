@@ -57,7 +57,14 @@ class BoidsSystem():
         speed_cohesion_rule_x, speed_cohesion_rule_y = self.cohesion_rule(fish)
         speed_separation_rule_x, speed_separation_rule_y = self.separation_rule(fish)
         speed_alignment_rule_x, speed_alignment_rule_y = self.alignment_rule(fish)
-        boids_speed_x = 0.01 * speed_cohesion_rule_x + 0.001 * speed_separation_rule_x + 0.200 * speed_alignment_rule_x
-        boids_speed_y = 0.01 * speed_cohesion_rule_y + 0.001 * speed_separation_rule_y + 0.200 * speed_alignment_rule_y
+
+        boids_speed_x = (world_parameters.COHESION_RATIO * speed_cohesion_rule_x  
+                         + world_parameters.SEPARATION_RATIO * speed_separation_rule_x 
+                         + world_parameters.ALIGNMENT_RATIO * speed_alignment_rule_x)
+
+
+        boids_speed_y = (world_parameters.COHESION_RATIO * speed_cohesion_rule_y  
+                         + world_parameters.SEPARATION_RATIO * speed_separation_rule_y 
+                         + world_parameters.ALIGNMENT_RATIO * speed_alignment_rule_y)
 
         return(boids_speed_x, boids_speed_y)
