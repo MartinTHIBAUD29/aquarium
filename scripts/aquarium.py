@@ -28,13 +28,16 @@ class Aquarium():
 
         self.foods.append(food.Food(food_position_x, food_position_y))
 
-    def update_fishes_neighborhood(self):        
-        for current_fish in self.fishes: 
-            current_fish.neighbors = []
-            for other in self.fishes:
-                if current_fish.distance_to(other.position_x, other.position_y) < current_fish.field_of_view:
-                    current_fish.neighbors.append(other)
+    def find_fish_neighbors(self, fish):
+        fish.neighbors = []
+        for other in self.fishes:
+            if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
+                fish.neighbors.append(other)
 
+    def update_fishes_neighborhood(self):        
+        for current_fish in self.fishes:
+            self.find_fish_neighbors(current_fish)
+            
             current_fish.food_in_sight = {}
             food_to_remove = []
             for food in self.foods:
@@ -45,9 +48,6 @@ class Aquarium():
                         current_fish.food_in_sight[food] = distance_to_food
             for food in food_to_remove:
                 self.foods.remove(food)
-
-            
-                
 
 
      

@@ -14,7 +14,7 @@ def run():
 
         tank.update_fishes_position()
 
-        interface.render(tank)
+        interface.render_tank(tank)
 
     pygame.quit()
 
