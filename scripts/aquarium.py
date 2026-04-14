@@ -4,7 +4,7 @@ from scripts import world_parameters, fish, boids_system
 class Aquarium():
     def __init__(self):
         self.fishes = []
-        self.create_n_fishes(world_parameters.NUMBER_OF_FISH)
+        self.create_n_fishes(world_parameters.INITIAL_NUMBER_OF_FISH)
         self.boids_calculation = boids_system.BoidsSystem()
 
     def create_n_fishes(self, number_of_fish):
