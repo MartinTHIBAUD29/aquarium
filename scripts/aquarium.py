@@ -34,6 +34,14 @@ class Aquarium():
             for other in self.fishes:
                 if current_fish.distance_to(other.position_x, other.position_y) < current_fish.field_of_view:
                     current_fish.neighbors.append(other)
+
+            current_fish.food_in_sight = {}
+            for food in self.foods:
+                distance_to_food = current_fish.distance_to(food.position_x, food.position_y)
+                if distance_to_food < food.range_of_detection:
+                        current_fish.food_in_sight[food] = distance_to_food
+
+
      
     def update_fishes_position(self):
         self.update_fishes_neighborhood()

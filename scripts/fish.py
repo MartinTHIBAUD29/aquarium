@@ -6,6 +6,7 @@ class Fish:
         self.position_x,  self.position_y = position_x, position_y
         self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
         self.neighbors = []
+        self.food_in_sight = {}
         self.field_of_view = 60
         
 
@@ -32,8 +33,10 @@ class Fish:
 
     def update_position(self, boids_calculation):
         self.calculate_speed(boids_calculation)
+
         self.position_x += self.speed_x
         self.position_y += self.speed_y
+        
         self.handle_obstacles()
 
     def handle_obstacles(self):
@@ -44,7 +47,6 @@ class Fish:
         elif self.position_x > world_parameters.SCREEN_WIDTH:
             self.speed_x = - self.speed_x
             self.position_x = world_parameters.SCREEN_WIDTH
-
 
         if self.position_y < 0 :
             self.speed_y = - self.speed_y
