@@ -43,6 +43,9 @@ class Aquarium():
                     food_to_remove.append(food)
                 elif distance_to_food < food.range_of_detection:
                         current_fish.food_in_sight[food] = distance_to_food
+            for food in food_to_remove:
+                self.foods.remove(food)
+
             
                 
 
