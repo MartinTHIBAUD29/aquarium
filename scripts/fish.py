@@ -9,12 +9,12 @@ class Fish:
         self.field_of_view = 60
         
 
-    def distance_to(self, fish):
+    def distance_to(self, object_position_x, object_position_y):
         distance = np.sqrt(
-                (self.position_x - fish.position_x)**2 + 
-                ((self.position_y - fish.position_y)**2))
+                (self.position_x - object_position_x)**2 + 
+                ((self.position_y - object_position_y)**2))
         return distance
-    
+     
 
     def calculate_speed(self, boids_calculation):
         
@@ -34,7 +34,9 @@ class Fish:
         self.calculate_speed(boids_calculation)
         self.position_x += self.speed_x
         self.position_y += self.speed_y
+        self.handle_obstacles()
 
+    def handle_obstacles(self):
         if self.position_x < 0 :
             self.speed_x = - self.speed_x
             self.position_x = 0

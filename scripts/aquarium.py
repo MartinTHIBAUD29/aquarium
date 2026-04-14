@@ -1,9 +1,10 @@
 import numpy as np
-from scripts import world_parameters, fish, boids_system
+from scripts import world_parameters, fish, boids_system, food
 
 class Aquarium():
     def __init__(self):
         self.fishes = []
+        self.foods = []
         self.create_n_fishes(world_parameters.INITIAL_NUMBER_OF_FISH)
         self.boids_calculation = boids_system.BoidsSystem()
 
@@ -19,11 +20,19 @@ class Aquarium():
 
         self.fishes.append(fish.Fish(fish_position_x, fish_position_y))
 
+    def add_new_food(self, food_position_x = None, food_position_y= None):
+        if food_position_x == None:
+            food_position_x = np.random.rand() * world_parameters.SCREEN_WIDTH
+        if food_position_y == None:    
+            food_position_y = np.random.rand() * world_parameters.SCREEN_HEIGHT
+
+        self.foods.append(food.Food(food_position_x, food_position_y))
+
     def update_fishes_neighborhood(self):        
         for current_fish in self.fishes: 
             current_fish.neighbors = []
             for other in self.fishes:
-                if current_fish.distance_to(other) < current_fish.field_of_view:
+                if current_fish.distance_to(other.position_x, other.position_y) < current_fish.field_of_view:
                     current_fish.neighbors.append(other)
      
     def update_fishes_position(self):
