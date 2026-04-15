@@ -47,7 +47,7 @@ class Fish:
         self.speed_y = np.sin(np.deg2rad(final_angle)) * speed
 
     def calculate_speed(self, boids_calculation):
-        if np.random.rand() > world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
+        if np.random.rand() >  1 - world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
 
         elif self.food_in_sight == {}:
