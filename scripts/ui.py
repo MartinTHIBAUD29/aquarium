@@ -23,14 +23,12 @@ class UserInterface:
         point3_x = fish.position_x  + np.cos(np.deg2rad(fish_direction - 130)) * fish_size
         point3_y = fish.position_y  + np.sin(np.deg2rad(fish_direction - 130)) * fish_size
 
-        return((point1_x, point1_y), (point2_x, point2_y), (point3_x, point3_y))
+        return([(point1_x, point1_y), (point2_x, point2_y), (point3_x, point3_y)])
 
 
     def render_fish(self, fish):
-        point1, point2, point3 = self.calculate_triangle_points(fish)
-
         pygame.draw.polygon(self.screen, world_parameters.FISH_COLOR, 
-                           [point1, point2, point3]  , width=0)
+                           self.calculate_triangle_points(fish) , width=0)
 
     def render_food(self, food):
          food_size = world_parameters.FOOD_SIZE
@@ -38,7 +36,7 @@ class UserInterface:
                           (food.position_x - (food_size/2), food.position_y - (food_size/2), food_size, food_size))
 
     def render_tank(self, aquarium):
-        self.screen.fill((0, 0, 0))  # clear screen (black)
+        self.screen.fill((0, 0, 0)) 
         for fish in aquarium.fishes:
             self.render_fish(fish)
         for food in aquarium.foods:
