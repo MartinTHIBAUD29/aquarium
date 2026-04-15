@@ -32,20 +32,25 @@ class Fish:
         self.speed_x += speed_x
         self.speed_y += speed_y
 
-    def smooth_rotation(self, last_speed_x, last_speed_y):
-        angle_last_speed = np.degrees(np.arctan2(last_speed_y, last_speed_x))
-        angle_current_speed = np.degrees(np.arctan2(self.speed_y, self.speed_x))
-        rotation_angle = angle_current_speed - angle_last_speed
-        rotation_angle = (rotation_angle + 180) % 360 - 180
+    def smooth_rotation(self, last_speed_x, last_speed_y, max_turn_deg=5):
+        speed = np.hypot(self.speed_x, self.speed_y)
+        if speed < 1e-9:
+            return
 
-        if rotation_angle < - 90 :
-            angle_current_speed = angle_last_speed - 90
-        elif rotation_angle > 90:
-            angle_current_speed = angle_last_speed + 90
+        last_speed = np.hypot(last_speed_x, last_speed_y)
+        if last_speed < 1e-9:
+            return
 
-        speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
-        self.speed_x = np.cos(np.deg2rad(angle_current_speed)) * speed
-        self.speed_y = np.sin(np.deg2rad(angle_current_speed)) * speed
+        angle_last = np.degrees(np.arctan2(last_speed_y, last_speed_x))
+        angle_current = np.degrees(np.arctan2(self.speed_y, self.speed_x))
+
+        # Use the shortest angular distance in [-180, 180].
+        rotation_angle = (angle_current - angle_last + 180) % 360 - 180
+        clamped_rotation = np.clip(rotation_angle, -max_turn_deg, max_turn_deg)
+        final_angle = angle_last + clamped_rotation
+
+        self.speed_x = np.cos(np.deg2rad(final_angle)) * speed
+        self.speed_y = np.sin(np.deg2rad(final_angle)) * speed
 
     def calculate_speed(self, boids_calculation):
         if self.food_in_sight == {}:
@@ -75,20 +80,21 @@ class Fish:
         
 
     def handle_obstacles(self):
-        if self.position_x < 0 :
-            self.speed_x = - self.speed_x
-            self.position_x = 0
+        margin = 25
+        turn_push = 0.01
 
-        elif self.position_x > world_parameters.SCREEN_WIDTH:
-            self.speed_x = - self.speed_x
-            self.position_x = world_parameters.SCREEN_WIDTH
+        if self.position_x < margin:
+            self.position_x = margin
+            self.speed_x = max(self.speed_x, turn_push)
+        elif self.position_x > world_parameters.SCREEN_WIDTH - margin:
+            self.position_x = world_parameters.SCREEN_WIDTH - margin
+            self.speed_x = min(self.speed_x, -turn_push)
 
-        if self.position_y < 0 :
-            self.speed_y = - self.speed_y
-            self.position_y = 0
-
-        elif self.position_y > world_parameters.SCREEN_HEIGHT :
-            self.speed_y = - self.speed_y
-            self.position_y = world_parameters.SCREEN_HEIGHT
+        if self.position_y < margin:
+            self.position_y = margin
+            self.speed_y = max(self.speed_y, turn_push)
+        elif self.position_y > world_parameters.SCREEN_HEIGHT - margin:
+            self.position_y = world_parameters.SCREEN_HEIGHT - margin
+            self.speed_y = min(self.speed_y, -turn_push)
         
 
