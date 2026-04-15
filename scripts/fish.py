@@ -32,24 +32,47 @@ class Fish:
         self.speed_x += speed_x
         self.speed_y += speed_y
 
+    def smooth_rotation(self, last_speed_x, last_speed_y):
+        angle_last_speed = np.degrees(np.arctan2(last_speed_y, last_speed_x))
+        angle_current_speed = np.degrees(np.arctan2(self.speed_y, self.speed_x))
+        rotation_angle = angle_current_speed - angle_last_speed
+        rotation_angle = (rotation_angle + 180) % 360 - 180
 
-    def update_position(self, boids_calculation):
+        if rotation_angle < - 90 :
+            angle_current_speed = angle_last_speed - 90
+        elif rotation_angle > 90:
+            angle_current_speed = angle_last_speed + 90
+
+        speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
+        self.speed_x = np.cos(np.deg2rad(angle_current_speed)) * speed
+        self.speed_y = np.sin(np.deg2rad(angle_current_speed)) * speed
+
+    def calculate_speed(self, boids_calculation):
         if self.food_in_sight == {}:
+            last_speed_x = self.speed_x
+            last_speed_y = self.speed_y
             self.calculate_boids_speed(boids_calculation)
+            self.handle_obstacles()
+
+            self.smooth_rotation(last_speed_x, last_speed_y)
+
         else:
             self.go_for_closest_food()
 
         max_speed = 0.3
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
-
         if speed > max_speed:
             self.speed_x = (self.speed_x / speed) * max_speed
             self.speed_y = (self.speed_y / speed) * max_speed
 
+    def update_position(self, boids_calculation):
+        
+        self.calculate_speed(boids_calculation)
+
         self.position_x += self.speed_x
         self.position_y += self.speed_y
-            
-        self.handle_obstacles()
+
+        
 
     def handle_obstacles(self):
         if self.position_x < 0 :
