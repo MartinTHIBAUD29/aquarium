@@ -7,7 +7,7 @@ class Fish:
         self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
         self.neighbors = []
         self.food_in_sight = {}
-        self.field_of_view = 60
+        self.field_of_view = 30
         
 
     def distance_to(self, object_position_x, object_position_y):
@@ -32,15 +32,9 @@ class Fish:
         self.speed_x += speed_x
         self.speed_y += speed_y
 
-    def smooth_rotation(self, last_speed_x, last_speed_y, max_turn_deg=5):
+    def smooth_rotation(self, last_speed_x, last_speed_y, max_turn_deg = 2):
         speed = np.hypot(self.speed_x, self.speed_y)
-        if speed < 1e-9:
-            return
-
-        last_speed = np.hypot(last_speed_x, last_speed_y)
-        if last_speed < 1e-9:
-            return
-
+    
         angle_last = np.degrees(np.arctan2(last_speed_y, last_speed_x))
         angle_current = np.degrees(np.arctan2(self.speed_y, self.speed_x))
 
@@ -80,21 +74,18 @@ class Fish:
         
 
     def handle_obstacles(self):
-        margin = 25
-        turn_push = 0.01
+        margin = 40       # start feeling the wall earlier
+        push_strength = 0.005
 
+        # Distance-based inward push (stronger as fish gets closer)
         if self.position_x < margin:
-            self.position_x = margin
-            self.speed_x = max(self.speed_x, turn_push)
+            self.speed_x += push_strength * (margin - self.position_x)
         elif self.position_x > world_parameters.SCREEN_WIDTH - margin:
-            self.position_x = world_parameters.SCREEN_WIDTH - margin
-            self.speed_x = min(self.speed_x, -turn_push)
+            self.speed_x -= push_strength * (self.position_x - (world_parameters.SCREEN_WIDTH - margin))
 
         if self.position_y < margin:
-            self.position_y = margin
-            self.speed_y = max(self.speed_y, turn_push)
+            self.speed_y += push_strength * (margin - self.position_y)
         elif self.position_y > world_parameters.SCREEN_HEIGHT - margin:
-            self.position_y = world_parameters.SCREEN_HEIGHT - margin
-            self.speed_y = min(self.speed_y, -turn_push)
-        
+            self.speed_y -= push_strength * (self.position_y - (world_parameters.SCREEN_HEIGHT - margin))
+
 
