@@ -8,10 +8,13 @@ class UserInterface:
         self.screen = pygame.display.set_mode(self.size)
 
     def render_fish(self, fish):
-        pygame.draw.circle(self.screen, (255, 0, 0), (fish.position_x, fish.position_y), 5)
+        pygame.draw.circle(self.screen, world_parameters.FISH_COLOR, 
+                           (fish.position_x, fish.position_y), world_parameters.FISH_SIZE)
 
     def render_food(self, food):
-         pygame.draw.rect(self.screen, (0, 255, 0), (food.position_x - 5, food.position_y - 5, 10, 10))
+         food_size = world_parameters.FOOD_SIZE
+         pygame.draw.rect(self.screen, world_parameters.FOOD_COLOR, 
+                          (food.position_x - (food_size/2), food.position_y - (food_size/2), food_size, food_size))
 
     def render_tank(self, aquarium):
         self.screen.fill((0, 0, 0))  # clear screen (black)
