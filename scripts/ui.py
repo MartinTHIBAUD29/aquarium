@@ -35,13 +35,14 @@ class UserInterface:
          pygame.draw.rect(self.screen, world_parameters.FOOD_COLOR, 
                           (food.position_x - (food_size/2), food.position_y - (food_size/2), food_size, food_size))
 
+
     def render_tank(self, aquarium):
         self.screen.fill((0, 0, 0)) 
         for fish in aquarium.fishes:
             self.render_fish(fish)
         for food in aquarium.foods:
             self.render_food(food)
-
+        
         pygame.display.flip()
 
     
