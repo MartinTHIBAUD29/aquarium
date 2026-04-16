@@ -51,9 +51,9 @@ class UserInterface:
                 self.running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                aquarium.add_new_fish()
+                aquarium.add_new_entity("fish")
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            aquarium.add_new_food(*event.pos)
+            aquarium.add_new_entity("food", *event.pos)
         
 
 
