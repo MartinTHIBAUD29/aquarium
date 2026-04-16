@@ -12,7 +12,7 @@ def run():
         for event in pygame.event.get():
             interface.handle_event(event, tank)
 
-        tank.update_fishes_position()
+        tank.simulate_step()
 
         interface.render_tank(tank)
 

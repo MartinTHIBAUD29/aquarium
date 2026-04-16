@@ -28,19 +28,19 @@ class Aquarium():
         for food in food_to_remove:
             self.foods.remove(food)
 
-    def update_fishes_neighborhood(self):        
+    def update_fishes_neighborhood(self):
+
+        self.grid_calculation.update_grid(self.fishes, self.foods)        
         for current_fish in self.fishes:
             self.grid_calculation.find_fish_neighbors(current_fish, self.fishes)
             
             food_to_remove = self.grid_calculation.find_food_in_sight(current_fish, self.foods)
             self.remove_food_from_list(food_to_remove)
 
-
-
-    def update_fishes_position(self):
+    def simulate_step(self):
         self.update_fishes_neighborhood()
         for fish in self.fishes:
-            fish.update_position(self.boids_calculation)
+            fish.move(self.boids_calculation)
 
                 
         

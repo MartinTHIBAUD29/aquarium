@@ -67,7 +67,7 @@ class Fish:
             self.speed_x = (self.speed_x / speed) * max_speed
             self.speed_y = (self.speed_y / speed) * max_speed
 
-    def update_position(self, boids_calculation):
+    def move(self, boids_calculation):
         
         self.calculate_speed(boids_calculation)
 
