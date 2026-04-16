@@ -28,7 +28,7 @@ class BoidsSystem():
     def separation_rule(self, fish):
         speed_separation_rule_x, speed_separation_rule_y = 0, 0
         for neighbor in fish.neighbors:
-            if fish.distance_to(neighbor) < 15:
+            if fish.distance_to(neighbor.position_x, neighbor.position_y) < world_parameters.SEPARATION_RANGE:
                 speed_separation_rule_x += fish.position_x - neighbor.position_x
                 speed_separation_rule_y += fish.position_y - neighbor.position_y
         return speed_separation_rule_x, speed_separation_rule_y
