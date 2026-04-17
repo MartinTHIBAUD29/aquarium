@@ -24,10 +24,10 @@ class Fish:
         self.speed_y += boids_speed_y
     
     def handle_obstacles(self):
-        margin = world_parameters.TANK_MARGIN      # start feeling the wall earlier
+        margin = world_parameters.TANK_MARGIN 
         push_strength = world_parameters.WALL_PUSH_STRENGHT
 
-        # Distance-based inward push (stronger as fish gets closer)
+
         if self.position_x < margin:
             self.speed_x += push_strength * (margin - self.position_x)
         elif self.position_x > world_parameters.SCREEN_WIDTH - margin:
@@ -65,13 +65,14 @@ class Fish:
 
    
     def calculate_speed(self, boids_calculation):
+        last_speed_x = self.speed_x
+        last_speed_y = self.speed_y
 
         if np.random.rand() >  1 - world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
+            self.smooth_rotation(last_speed_x, last_speed_y, 45)
 
         elif self.food_in_sight == {}:
-            last_speed_x = self.speed_x
-            last_speed_y = self.speed_y
             self.calculate_boids_speed(boids_calculation)
             self.handle_obstacles()
             self.smooth_rotation(last_speed_x, last_speed_y)
