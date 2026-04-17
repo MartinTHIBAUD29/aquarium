@@ -39,7 +39,9 @@ class SpatialGrid():
 
 
     def get_fish_square_case(self, fish):
-        return (int(fish.position_x // self.size_of_column), int(fish.position_y // self.size_of_row))
+        column = max(0, min(int(fish.position_x // self.size_of_column), self.number_of_column - 1))
+        row = max(0, min(int(fish.position_y // self.size_of_row), self.number_of_row - 1))
+        return (column, row)
         
 
     def update_grid(self, fishes, food):
@@ -61,7 +63,7 @@ class SpatialGrid():
         #     if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
         #         fish.neighbors.append(other)
 
-        for other in fishes_in_adjacent_cases[0:20]:
+        for other in fishes_in_adjacent_cases:
             if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
                 fish.neighbors.append(other)
 

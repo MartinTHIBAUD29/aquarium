@@ -5,7 +5,7 @@ from scripts import aquarium, ui
 def run():
     pygame.init()
 
-    interface = ui.UserInterface()
+    interface = ui.UserInterface() 
     tank = aquarium.Aquarium()
 
     while interface.running:
