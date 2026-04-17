@@ -14,10 +14,11 @@ class Aquarium():
             self.add_new_entity("fish")
 
     def add_new_entity(self, type_of_entity, position_x = None, position_y= None):
+        tank_margin = world_parameters.TANK_MARGIN
         if position_x == None:
-            position_x = np.random.rand() * world_parameters.SCREEN_WIDTH
+            position_x = np.random.rand() * (world_parameters.SCREEN_WIDTH - tank_margin ) + tank_margin/2
         if position_y == None:    
-            position_y = np.random.rand() * world_parameters.SCREEN_HEIGHT
+            position_y = np.random.rand() * (world_parameters.SCREEN_HEIGHT- tank_margin ) + tank_margin/2
         if type_of_entity == "fish":
             self.fishes.append(fish.Fish(position_x, position_y))
         elif type_of_entity == "food":
