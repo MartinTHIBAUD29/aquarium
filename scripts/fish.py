@@ -4,7 +4,7 @@ from scripts import world_parameters
 class Fish:
     def __init__(self, position_x, position_y):
         self.position_x,  self.position_y = position_x, position_y
-        self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5 
+        self.speed_x, self.speed_y = 2* np.random.rand() - 1 , 2* np.random.rand() - 1 
         self.neighbors = []
         self.food_in_sight = {}
         self.field_of_view = world_parameters.FISH_FIELD_OF_VIEW
@@ -90,3 +90,5 @@ class Fish:
         self.calculate_speed(boids_calculation)
         self.position_x += self.speed_x
         self.position_y += self.speed_y
+        self.position_x = max(0, min(self.position_x, world_parameters.SCREEN_WIDTH))
+        self.position_y = max(0, min(self.position_y, world_parameters.SCREEN_HEIGHT))
