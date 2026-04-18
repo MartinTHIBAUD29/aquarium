@@ -16,9 +16,7 @@ class Aquarium():
             self.add_new_entity("fish")
 
     # Create either a food or a fish object
-    # if no position is specified, the object is created at a random 
-    
-    #The creation of the fish cannot be closer than world_parameters.TANK_MARGIN to the side of the screen
+    # if no position is specified, the object is created at a random location
     def add_new_entity(self, type_of_entity, position_x = None, position_y= None):
         tank_margin = world_parameters.TANK_MARGIN
         if position_x == None:
@@ -35,6 +33,10 @@ class Aquarium():
         for food in food_to_remove:
             self.foods.remove(food)
 
+    # Each step, update for all fishes in the simulation:
+    # - the list of its neighbors
+    # - list of food in sight
+    # Remove foods that are in range of being eaten
     def refresh_neighborhood(self):
         self.grid_calculation.update_grid(self.fishes, self.foods)        
         for current_fish in self.fishes:
@@ -43,6 +45,9 @@ class Aquarium():
             food_to_remove = self.grid_calculation.find_food_in_sight(current_fish, self.foods)
             self.remove_foods_from_list(food_to_remove)
 
+    # Function called by main to update the Aquarium each step
+    # 1st update the list of neighbors / food of all fishes
+    # 2nd calculate next cycle fish position
     def simulate_step(self):
         self.refresh_neighborhood()
         for fish in self.fishes:

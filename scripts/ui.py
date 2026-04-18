@@ -29,21 +29,21 @@ class UserInterface:
 
         return([(point1_x, point1_y), (point2_x, point2_y), (point3_x, point3_y)])
 
-    # Draw a fish, call calculate_triangle_points to calculate triangle corners
-    # width = 0 used to fill the polygon
+    # Draw a fish as a filled triangle pointing in its direction of movement
+    # Calls calculate_triangle_points to get the triangle corners
     def render_fish(self, fish):
         pygame.draw.polygon(self.screen, world_parameters.FISH_COLOR, 
                            self.calculate_triangle_points(fish) , width=0)
 
-    #Draw a food
-    #The food is a rectangle of side world_parameters.FOOD_SIZE centered around food position
+
+    # Draw a food as a square of side world_parameters.FOOD_SIZE centered around its position
     def render_food(self, food):
          food_size = world_parameters.FOOD_SIZE
          pygame.draw.rect(self.screen, world_parameters.FOOD_COLOR, 
                           (food.position_x - (food_size/2), food.position_y - (food_size/2), food_size, food_size))
 
 
-    #Draw all fishes and foods contained in the aquarium
+    # Clear the screen and draw all fishes and foods contained in the aquarium
     def render_tank(self, aquarium):
         self.screen.fill((0, 0, 0)) 
         for fish in aquarium.fishes:
@@ -53,10 +53,10 @@ class UserInterface:
         
         pygame.display.flip()
 
-    # Catch pygame Events: 
-    # - Close window stop the simulation
-    # - SpaceBar generate a food at a random position
-    # - Mouse click generate an object food at the click position
+    # Catch pygame Events:
+    # - Close window stops the simulation
+    # - SpaceBar adds a new fish at a random position
+    # - Mouse click adds a food at the click position
     def handle_event(self, event, aquarium):
         if event.type == pygame.QUIT:
                 self.running = False
