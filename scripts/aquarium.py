@@ -1,5 +1,5 @@
 import numpy as np
-from scripts import world_parameters, fish, boids_system, food, spatial_grid
+from scripts import world_parameters, fish, boids, boids_system, food, spatial_grid
 
 class Aquarium():
     def __init__(self):
@@ -24,7 +24,7 @@ class Aquarium():
         if position_y == None:    
             position_y = np.random.rand() * (world_parameters.SCREEN_HEIGHT- 2 *tank_margin ) + tank_margin
         if type_of_entity == "fish":
-            self.fishes.append(fish.Fish(position_x, position_y))
+            self.fishes.append(boids.Boids(position_x, position_y))
         elif type_of_entity == "food":
             self.foods.append(food.Food(position_x, position_y))
 

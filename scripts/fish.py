@@ -5,9 +5,7 @@ class Fish:
     def __init__(self, position_x, position_y):
         self.position_x,  self.position_y = position_x, position_y
         self.speed_x, self.speed_y = 2* np.random.rand() - 1 , 2* np.random.rand() - 1 #Initial speed is random
-        self.neighbors = [] #List of fish within field of view, updated each step
-        self.food_in_sight = {} #Dict of {food: distance} for food within detection range, updated each step
-        self.field_of_view = world_parameters.FISH_FIELD_OF_VIEW
+        
 
 
     # Return the euclidean distance between this fish and any (x, y) position
@@ -16,13 +14,6 @@ class Fish:
                 (self.position_x - object_position_x)**2 + 
                 ((self.position_y - object_position_y)**2))
         return distance
-
-
-    # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
-    def calculate_boids_speed(self, boids_calculation):
-        boids_speed_x, boids_speed_y = boids_calculation.calculate_boids_speed(self)
-        self.speed_x += boids_speed_x
-        self.speed_y += boids_speed_y
 
 
     # Push the fish away from tank walls when it enters the margin zone
@@ -58,46 +49,12 @@ class Fish:
         self.speed_x = np.cos(np.deg2rad(final_angle)) * speed
         self.speed_y = np.sin(np.deg2rad(final_angle)) * speed
 
-
-    # Steer the fish toward the closest food in its food_in_sight dict
-    def go_for_closest_food(self):
-        closest_food = min(self.food_in_sight, key = self.food_in_sight.get)
-
-        speed_x = (closest_food.position_x - self.position_x) / 100
-        speed_y = (closest_food.position_y - self.position_y) / 100
-
-        self.speed_x += speed_x
-        self.speed_y += speed_y
-
-
-    # Determine the fish velocity for this step:
-    # - Small random chance: apply a random direction change (wandering)
-    # - No food in sight: apply the three boids rules and wall avoidance
-    # - Food in sight: steer toward the closest food
-    # After all contributions, clamp the speed to MAX_SPEED
-    def calculate_speed(self, boids_calculation):
-        last_speed_x = self.speed_x
-        last_speed_y = self.speed_y
-
-        if np.random.rand() >  1 - world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
-            self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
-            self.smooth_rotation(last_speed_x, last_speed_y, 45)
-
-        elif self.food_in_sight == {}:
-            self.calculate_boids_speed(boids_calculation)
-            self.handle_obstacles()
-            self.smooth_rotation(last_speed_x, last_speed_y)
-
-        else:
-            self.go_for_closest_food()
-
-        max_speed = world_parameters.MAX_SPEED
+    def limit_speed(self, max_speed):
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
         if speed > max_speed:
             self.speed_x = (self.speed_x / speed) * max_speed
             self.speed_y = (self.speed_y / speed) * max_speed
-
-
+            
     # Update the fish velocity then advance its position by one step
     # Clamp position to screen bounds to prevent escaping the tank
     def move(self, boids_calculation):
