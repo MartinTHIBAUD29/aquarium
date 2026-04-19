@@ -13,7 +13,7 @@ INITIAL_NUMBER_OF_FISH = 150
 MAX_TURN_DEG = 2                    # Maximum heading change per step in degrees
 RANDOWN_MOVEMENT_PROBABILITY = 0.000  # Probability of random wandering each step
 FISH_FIELD_OF_VIEW = 60             # Radius in pixels for neighbor detection
-MAX_SPEED = 0.3                       # Maximum fish speed in pixels per step
+MAX_SPEED = 1.0                      # Maximum fish speed in pixels per step
 
 # --- Sharks movement ---
 SHARK_FIELD_OF_VIEW = 100  # Radius in pixels for neighbor detection

@@ -24,9 +24,10 @@ class Aquarium():
             position_x = np.random.rand() * (world_parameters.SCREEN_WIDTH -  2 *tank_margin ) + tank_margin
         if position_y == None:    
             position_y = np.random.rand() * (world_parameters.SCREEN_HEIGHT- 2 *tank_margin ) + tank_margin
+        
         if type_of_entity == "fish":
             self.fishes.append(fish.Fish(position_x, position_y))
-        if type_of_entity == "shark":
+        elif type_of_entity == "shark":
             self.fishes.append(sharks.Shark(position_x, position_y))
         elif type_of_entity == "food":
             self.foods.append(food.Food(position_x, position_y))

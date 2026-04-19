@@ -15,8 +15,9 @@ class Shark(creature.Creature):
 
         if self.neighbors != {}:
             speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.cohesion_toward_fish(self)
-            self.speed_x += world_parameters.COHESION_RATIO * speed_cohesion_rule_x
-            self.speed_y += world_parameters.COHESION_RATIO * speed_cohesion_rule_y
+            self.speed_x += speed_cohesion_rule_x
+            self.speed_y += speed_cohesion_rule_y
+
 
         elif np.random.rand() < world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
