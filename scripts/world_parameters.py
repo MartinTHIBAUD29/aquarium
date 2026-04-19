@@ -7,7 +7,7 @@ TANK_MARGIN = 60       # Distance from the edge where wall-avoidance kicks in
 WALL_PUSH_STRENGHT = 0.002  # Force applied per pixel inside the margin zone
 
 # --- Simulation ---
-INITIAL_NUMBER_OF_FISH = 15
+INITIAL_NUMBER_OF_FISH = 150
 
 # --- Fish movement ---
 MAX_TURN_DEG = 2                    # Maximum heading change per step in degrees

@@ -1,66 +1,59 @@
-﻿import numpy as np
-from scripts import world_parameters
+import numpy as np
+from scripts import creature, world_parameters
 
-class Fish:
+class Fish(creature.Creature):
     def __init__(self, position_x, position_y):
-        self.position_x,  self.position_y = position_x, position_y
-        self.speed_x, self.speed_y = 2* np.random.rand() - 1 , 2* np.random.rand() - 1 #Initial speed is random
-        self.neighbors = [] #List of fish within field of view, updated each step
-        self.sharks_in_sight = []
-        
-        
-    # Return the euclidean distance between this fish and any (x, y) position
-    def distance_to(self, object_position_x, object_position_y):
-        distance = np.sqrt(
-                (self.position_x - object_position_x)**2 + 
-                ((self.position_y - object_position_y)**2))
-        return distance
+        super().__init__(position_x, position_y)
+        self.food_in_sight = {} #Dict of {food: distance} for food within detection range, updated each step
+        self.field_of_view = world_parameters.FISH_FIELD_OF_VIEW
+        self.color = world_parameters.FISH_COLOR
+
+    # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
+    def calculate_boids_speed(self, sharks_calculation):
+        fear_speed_x, fear_speed_y = sharks_calculation.calculate_boids_speed(self)
+        self.speed_x += fear_speed_x
+        self.speed_y += fear_speed_y
+
+    # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
+    def calculate_fear_speed(self, boids_calculation):
+        boids_speed_x, boids_speed_y = boids_calculation.separation_from_sharks(self)
+        self.speed_x += boids_speed_x
+        self.speed_y += boids_speed_y
+
+    # Steer the fish toward the closest food in its food_in_sight dict
+    def go_for_closest_food(self):
+        closest_food = min(self.food_in_sight, key = self.food_in_sight.get)
+
+        speed_x = (closest_food.position_x - self.position_x) / 100
+        speed_y = (closest_food.position_y - self.position_y) / 100
+
+        self.speed_x += speed_x
+        self.speed_y += speed_y
 
 
-    # Push the fish away from tank walls when it enters the margin zone
-    # Push strength increases proportionally to how deep into the margin the fish is
-    def handle_obstacles(self):
-        margin = world_parameters.TANK_MARGIN
-        push_strength = world_parameters.WALL_PUSH_STRENGHT
+    # Determine the fish velocity for this step:
+    # - Small random chance: apply a random direction change (wandering)
+    # - No food in sight: apply the three boids rules and wall avoidance
+    # - Food in sight: steer toward the closest food
+    # After all contributions, clamp the speed to MAX_SPEED
+    def calculate_speed(self, boids_calculation, sharks_calculation):
+        last_speed_x = self.speed_x
+        last_speed_y = self.speed_y
 
-        if self.position_x < margin:
-            self.speed_x += push_strength * (margin - self.position_x)
-        elif self.position_x > world_parameters.SCREEN_WIDTH - margin:
-            self.speed_x -= push_strength * (self.position_x - (world_parameters.SCREEN_WIDTH - margin))
+        if self.sharks_in_sight != []:
+            self.calculate_fear_speed(sharks_calculation)
 
-        if self.position_y < margin:
-            self.speed_y += push_strength * (margin - self.position_y)
-        elif self.position_y > world_parameters.SCREEN_HEIGHT - margin:
-            self.speed_y -= push_strength * (self.position_y - (world_parameters.SCREEN_HEIGHT - margin))
+        elif self.food_in_sight != {}:
+            self.go_for_closest_food()
 
+        elif np.random.rand() < world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
+            self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
+            self.smooth_rotation(last_speed_x, last_speed_y, 45)
 
-    # Limit the turn applied this step to max_turn_deg degrees
-    # Keeps the total speed magnitude unchanged, only rotates the direction
-    def smooth_rotation(self, last_speed_x, last_speed_y, max_turn_deg = world_parameters.MAX_TURN_DEG):
-        speed = np.hypot(self.speed_x, self.speed_y)
+        else:
+            self.calculate_boids_speed(boids_calculation)
+            self.handle_obstacles()
+            self.smooth_rotation(last_speed_x, last_speed_y)
 
-        angle_last = np.degrees(np.arctan2(last_speed_y, last_speed_x))
-        angle_current = np.degrees(np.arctan2(self.speed_y, self.speed_x))
+        self.limit_speed(world_parameters.MAX_SPEED)
 
-        # Use the shortest angular distance in [-180, 180].
-        rotation_angle = (angle_current - angle_last + 180) % 360 - 180
-        clamped_rotation = np.clip(rotation_angle, -max_turn_deg, max_turn_deg)
-        final_angle = angle_last + clamped_rotation
-
-        self.speed_x = np.cos(np.deg2rad(final_angle)) * speed
-        self.speed_y = np.sin(np.deg2rad(final_angle)) * speed
-
-    def limit_speed(self, max_speed):
-        speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
-        if speed > max_speed:
-            self.speed_x = (self.speed_x / speed) * max_speed
-            self.speed_y = (self.speed_y / speed) * max_speed
-            
-    # Update the fish velocity then advance its position by one step
-    # Clamp position to screen bounds to prevent escaping the tank
-    def move(self, boids_calculation):
-        self.calculate_speed(boids_calculation)
-        self.position_x += self.speed_x
-        self.position_y += self.speed_y
-        self.position_x = max(0, min(self.position_x, world_parameters.SCREEN_WIDTH))
-        self.position_y = max(0, min(self.position_y, world_parameters.SCREEN_HEIGHT))

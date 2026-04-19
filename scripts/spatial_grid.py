@@ -1,4 +1,6 @@
-﻿from scripts import world_parameters, sharks, boids
+from scripts import world_parameters, sharks
+import scripts.fish as fish_class
+import scripts.sharks as sharks_class
 
 # Divides the screen into a uniform grid of cells to optimise neighbor searches
 # Instead of checking every fish pair, only fish in adjacent cells are compared
@@ -61,7 +63,7 @@ class SpatialGrid():
     # Populate fish.neighbors with all fish within field_of_view distance
     # Only fish in the 3x3 block of cells around the current fish are checked,
     # reducing the search from O(n^2) to O(k) where k << n
-    def find_fish_neighbors(self, fish, fishes):
+    def find_fish_neighbors(self, fish):
         fish.neighbors = []
         fish.sharks_in_sight = []
         fishes_in_adjacent_cases = []
@@ -73,9 +75,9 @@ class SpatialGrid():
 
         for other in fishes_in_adjacent_cases:
             if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
-                if isinstance(other, boids.Boid):
+                if isinstance(other, fish_class.Fish):
                     fish.neighbors.append(other)
-                elif isinstance(other, sharks.Shark):
+                elif isinstance(other, sharks_class.Shark):
                     fish.sharks_in_sight.append(other)
 
     # Populate fish.food_in_sight with food objects within detection range

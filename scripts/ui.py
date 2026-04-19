@@ -13,27 +13,27 @@ class UserInterface:
     # 1st point is in the direction of the fish, at a distane 1.5 * fish_size
     # Points 2 and 3 are in the back of the fish, symetric and at a distance 1* fish_size
     # return a list with of 3 tuples, each tuple is the coordinates of the points
-    def calculate_triangle_points(self, fish): 
-        fish_direction = np.degrees(np.arctan2(fish.speed_y, fish.speed_x))
-        fish_direction = (fish_direction + 180) % 360 - 180
-        fish_size = world_parameters.FISH_SIZE
+    def calculate_triangle_points(self, creature): 
+        creature_direction = np.degrees(np.arctan2(creature.speed_y, creature.speed_x))
+        creature_direction = (creature_direction + 180) % 360 - 180
+        creature_size = world_parameters.FISH_SIZE
 
-        point1_x = fish.position_x  + np.cos(np.deg2rad(fish_direction)) * 1.5 * fish_size
-        point1_y = fish.position_y  + np.sin(np.deg2rad(fish_direction)) * 1.5 * fish_size
+        point1_x = creature.position_x  + np.cos(np.deg2rad(creature_direction)) * 1.5 * creature_size
+        point1_y = creature.position_y  + np.sin(np.deg2rad(creature_direction)) * 1.5 * creature_size
 
-        point2_x = fish.position_x  + np.cos(np.deg2rad(fish_direction + 130)) * fish_size
-        point2_y = fish.position_y  + np.sin(np.deg2rad(fish_direction + 130)) * fish_size
+        point2_x = creature.position_x  + np.cos(np.deg2rad(creature_direction + 130)) * creature_size
+        point2_y = creature.position_y  + np.sin(np.deg2rad(creature_direction + 130)) * creature_size
 
-        point3_x = fish.position_x  + np.cos(np.deg2rad(fish_direction - 130)) * fish_size
-        point3_y = fish.position_y  + np.sin(np.deg2rad(fish_direction - 130)) * fish_size
+        point3_x = creature.position_x  + np.cos(np.deg2rad(creature_direction - 130)) * creature_size
+        point3_y = creature.position_y  + np.sin(np.deg2rad(creature_direction - 130)) * creature_size
 
         return([(point1_x, point1_y), (point2_x, point2_y), (point3_x, point3_y)])
 
-    # Draw a fish as a filled triangle pointing in its direction of movement
+    # Draw a creature(fish or shark) as a filled triangle pointing in its direction of movement
     # Calls calculate_triangle_points to get the triangle corners
-    def render_fish(self, fish):
-        pygame.draw.polygon(self.screen, fish.color, 
-                           self.calculate_triangle_points(fish) , width=0)
+    def render_creature(self, creature):
+        pygame.draw.polygon(self.screen, creature.color, 
+                           self.calculate_triangle_points(creature) , width=0)
 
 
     # Draw a food as a square of side world_parameters.FOOD_SIZE centered around its position
@@ -47,7 +47,7 @@ class UserInterface:
     def render_tank(self, aquarium):
         self.screen.fill((0, 0, 0)) 
         for fish in aquarium.fishes:
-            self.render_fish(fish)
+            self.render_creature(fish)
         for food in aquarium.foods:
             self.render_food(food)
         

@@ -1,20 +1,20 @@
 
 import numpy as np
-from scripts import fish, world_parameters
+from scripts import creature, world_parameters
 
-class Shark(fish.Fish):
+class Shark(creature.Creature):
     def __init__(self, position_x, position_y):
         super().__init__(position_x, position_y)
         self.field_of_view = world_parameters.SHARK_FIELD_OF_VIEW
         self.color = world_parameters.SHARK_COLOR
 
 
-    def calculate_speed(self, boids_calculation):
+    def calculate_speed(self, boids_calculation, sharks_calculation):
         last_speed_x = self.speed_x
         last_speed_y = self.speed_y
 
         if self.neighbors != {}:
-            speed_cohesion_rule_x, speed_cohesion_rule_y = boids_calculation.cohesion_rule(self)
+            speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.cohesion_toward_fish(self)
             self.speed_x += world_parameters.COHESION_RATIO * speed_cohesion_rule_x
             self.speed_y += world_parameters.COHESION_RATIO * speed_cohesion_rule_y
 
