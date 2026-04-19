@@ -1,12 +1,13 @@
 import numpy as np
-from scripts import world_parameters, fish, boids, boids_system, food, spatial_grid
+from scripts import world_parameters, sharks, boids, boids_system,sharks_system, food, spatial_grid
 
 class Aquarium():
     def __init__(self):
         self.fishes = [] #List of all fish objects in the simulation
         self.foods = [] #List of all food objects in the simulation
         self.create_n_fishes(world_parameters.INITIAL_NUMBER_OF_FISH)
-        self.boids_calculation = boids_system.BoidsSystem() #used for calculation of the 3 boids rules
+        self.boids_calculation = boids_system.BoidSystem() #used for calculation of the 3 boids rules
+        self.sharks_calculation = sharks_system.SharkSystem() #used for calculation of the 3 boids rules
         self.grid_calculation = spatial_grid.SpatialGrid() #used for separating the screen in smaller cases
                                                            #used for reducing the number of calculation each step
 
@@ -24,7 +25,9 @@ class Aquarium():
         if position_y == None:    
             position_y = np.random.rand() * (world_parameters.SCREEN_HEIGHT- 2 *tank_margin ) + tank_margin
         if type_of_entity == "fish":
-            self.fishes.append(boids.Boids(position_x, position_y))
+            self.fishes.append(boids.Boid(position_x, position_y))
+        if type_of_entity == "shark":
+            self.fishes.append(sharks.Shark(position_x, position_y))
         elif type_of_entity == "food":
             self.foods.append(food.Food(position_x, position_y))
 

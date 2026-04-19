@@ -1,12 +1,12 @@
 import numpy as np
 from scripts import fish, world_parameters
 
-class Boids(fish.Fish):
+class Boid(fish.Fish):
     def __init__(self, position_x, position_y):
         super().__init__(position_x, position_y)
-        self.neighbors = [] #List of fish within field of view, updated each step
         self.food_in_sight = {} #Dict of {food: distance} for food within detection range, updated each step
         self.field_of_view = world_parameters.FISH_FIELD_OF_VIEW
+        self.color = world_parameters.FISH_COLOR
 
     # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
     def calculate_boids_speed(self, boids_calculation):
@@ -34,14 +34,17 @@ class Boids(fish.Fish):
         last_speed_x = self.speed_x
         last_speed_y = self.speed_y
 
-        if self.food_in_sight != {}:
+        if self.sharks_in_sight != []:
+            boids_speed_x, boids_speed_y = boids_calculation.separation_rule(self)
+
+        elif self.food_in_sight != {}:
             self.go_for_closest_food()
 
-        elif np.random.rand() >  1 - world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
+        elif np.random.rand() < world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
             self.smooth_rotation(last_speed_x, last_speed_y, 45)
 
-        elif self.food_in_sight == {}:
+        else:
             self.calculate_boids_speed(boids_calculation)
             self.handle_obstacles()
             self.smooth_rotation(last_speed_x, last_speed_y)

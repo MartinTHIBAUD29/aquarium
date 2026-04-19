@@ -5,9 +5,10 @@ class Fish:
     def __init__(self, position_x, position_y):
         self.position_x,  self.position_y = position_x, position_y
         self.speed_x, self.speed_y = 2* np.random.rand() - 1 , 2* np.random.rand() - 1 #Initial speed is random
+        self.neighbors = [] #List of fish within field of view, updated each step
+        self.sharks_in_sight = []
         
-
-
+        
     # Return the euclidean distance between this fish and any (x, y) position
     def distance_to(self, object_position_x, object_position_y):
         distance = np.sqrt(

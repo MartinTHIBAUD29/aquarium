@@ -32,7 +32,7 @@ class UserInterface:
     # Draw a fish as a filled triangle pointing in its direction of movement
     # Calls calculate_triangle_points to get the triangle corners
     def render_fish(self, fish):
-        pygame.draw.polygon(self.screen, world_parameters.FISH_COLOR, 
+        pygame.draw.polygon(self.screen, fish.color, 
                            self.calculate_triangle_points(fish) , width=0)
 
 
@@ -62,7 +62,7 @@ class UserInterface:
                 self.running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                aquarium.add_new_entity("fish")
+                aquarium.add_new_entity("shark")
         elif event.type == pygame.MOUSEBUTTONDOWN:
             aquarium.add_new_entity("food", *event.pos)
         

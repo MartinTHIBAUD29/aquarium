@@ -1,4 +1,4 @@
-﻿from scripts import world_parameters
+﻿from scripts import world_parameters, sharks, boids
 
 # Divides the screen into a uniform grid of cells to optimise neighbor searches
 # Instead of checking every fish pair, only fish in adjacent cells are compared
@@ -63,6 +63,7 @@ class SpatialGrid():
     # reducing the search from O(n^2) to O(k) where k << n
     def find_fish_neighbors(self, fish, fishes):
         fish.neighbors = []
+        fish.sharks_in_sight = []
         fishes_in_adjacent_cases = []
         column_of_fish, row_of_fish = self.get_fish_square_case(fish)
         list_of_adjacent_cases = self.map_of_adjacent_cases[(column_of_fish, row_of_fish)]
@@ -70,13 +71,12 @@ class SpatialGrid():
         for case in list_of_adjacent_cases:
             fishes_in_adjacent_cases += self.square_case_to_fishes[case]
 
-        # for other in fishes:
-        #     if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
-        #         fish.neighbors.append(other)
-
         for other in fishes_in_adjacent_cases:
             if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
-                fish.neighbors.append(other)
+                if isinstance(other, boids.Boid):
+                    fish.neighbors.append(other)
+                elif isinstance(other, sharks.Shark):
+                    fish.sharks_in_sight.append(other)
 
     # Populate fish.food_in_sight with food objects within detection range
     # Food within FOOD_SIZE (eating range) is consumed and added to the removal list
