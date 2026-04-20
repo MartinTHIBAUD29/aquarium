@@ -25,12 +25,12 @@ class BoidSystem(parent_system.ParentSystem):
     # Only neighbors within SEPARATION_RANGE contribute a repulsion force
     def separation_rule(self, fish):
         speed_separation_rule_x, speed_separation_rule_y = 0, 0
-        fish_in_speration_range = []
+        fish_in_separation_range = []
         for neighbor in fish.neighbors:
             if fish.distance_to(neighbor) < world_parameters.SEPARATION_RANGE:
-                fish_in_speration_range.append(neighbor)
+                fish_in_separation_range.append(neighbor)
 
-        center_of_mass_x, center_of_mass_y = self.calculate_center_of_mass_neighbors(fish_in_speration_range)
+        center_of_mass_x, center_of_mass_y = self.calculate_center_of_mass_neighbors(fish_in_separation_range)
         if (center_of_mass_x != None and center_of_mass_y != None) : 
             speed_separation_rule_x = fish.position_x - center_of_mass_x
             speed_separation_rule_y = fish.position_y - center_of_mass_y

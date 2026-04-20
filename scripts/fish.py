@@ -10,14 +10,14 @@ class Fish(creature.Creature):
         self.max_speed = world_parameters.FISH_MAX_SPEED
 
     # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
-    def calculate_boids_speed(self, sharks_calculation):
-        fear_speed_x, fear_speed_y = sharks_calculation.calculate_boids_speed(self)
+    def calculate_boids_speed(self, boids_calculation):
+        fear_speed_x, fear_speed_y = boids_calculation.calculate_boids_speed(self)
         self.speed_x += fear_speed_x
         self.speed_y += fear_speed_y
 
-    # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
-    def calculate_fear_speed(self, boids_calculation):
-        boids_speed_x, boids_speed_y = boids_calculation.separation_from_sharks(self)
+    # Apply the fear speed contribution calculated by SharkSystem to this fish velocity
+    def calculate_fear_speed(self, sharks_calculation):
+        boids_speed_x, boids_speed_y = sharks_calculation.separation_from_sharks(self)
         self.speed_x += boids_speed_x
         self.speed_y += boids_speed_y
 
@@ -47,7 +47,7 @@ class Fish(creature.Creature):
         elif self.food_in_sight != {}:
             self.go_for_closest_food()
 
-        elif np.random.rand() < world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
+        elif np.random.rand() < world_parameters.RANDON_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
             self.smooth_rotation(last_speed_x, last_speed_y, 45)
 

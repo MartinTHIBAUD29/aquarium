@@ -15,13 +15,12 @@ class Shark(creature.Creature):
         last_speed_x = self.speed_x
         last_speed_y = self.speed_y
 
-        if self.neighbors != {}:
+        if self.neighbors != []:
             speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.chase_closest_fish(self)
             self.speed_x += speed_cohesion_rule_x
             self.speed_y += speed_cohesion_rule_y
 
-
-        elif np.random.rand() < world_parameters.RANDOWN_MOVEMENT_PROBABILITY:
+        elif np.random.rand() < world_parameters.RANDON_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
             self.smooth_rotation(last_speed_x, last_speed_y, 45)
 

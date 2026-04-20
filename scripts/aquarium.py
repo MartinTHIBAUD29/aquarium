@@ -20,9 +20,9 @@ class Aquarium():
     # if no position is specified, the object is created at a random location
     def add_new_entity(self, type_of_entity, position_x = None, position_y= None):
         tank_margin = world_parameters.TANK_MARGIN
-        if position_x == None:
+        if position_x is None:
             position_x = np.random.rand() * (world_parameters.SCREEN_WIDTH -  2 *tank_margin ) + tank_margin
-        if position_y == None:    
+        if position_y is None:    
             position_y = np.random.rand() * (world_parameters.SCREEN_HEIGHT- 2 *tank_margin ) + tank_margin
         
         if type_of_entity == "fish":

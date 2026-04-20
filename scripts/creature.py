@@ -22,7 +22,7 @@ class Creature:
     # Push strength increases proportionally to how deep into the margin the fish is
     def handle_obstacles(self):
         margin = world_parameters.TANK_MARGIN
-        push_strength = world_parameters.WALL_PUSH_STRENGHT
+        push_strength = world_parameters.WALL_PUSH_STRENGTH
 
         if self.position_x < margin:
             self.speed_x += push_strength * (margin - self.position_x)

@@ -3,7 +3,7 @@ from scripts import world_parameters
 
 
 class ParentSystem():
-    def __init__():
+    def __init__(self):
         pass
 
     # Compute the average position of all fishes in a list
@@ -47,4 +47,4 @@ class ParentSystem():
             if distance_to_current_fish < distance_to_closest_fish:
                 closest_fish = curent_fish
                 distance_to_closest_fish = distance_to_current_fish
-        return(closest_fish)
+        return closest_fish
