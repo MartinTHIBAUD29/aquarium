@@ -27,7 +27,7 @@ class BoidSystem(parent_system.ParentSystem):
         speed_separation_rule_x, speed_separation_rule_y = 0, 0
         fish_in_speration_range = []
         for neighbor in fish.neighbors:
-            if fish.distance_to(neighbor.position_x, neighbor.position_y) < world_parameters.SEPARATION_RANGE:
+            if fish.distance_to(neighbor) < world_parameters.SEPARATION_RANGE:
                 fish_in_speration_range.append(neighbor)
 
         center_of_mass_x, center_of_mass_y = self.calculate_center_of_mass_neighbors(fish_in_speration_range)

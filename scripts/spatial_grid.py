@@ -73,12 +73,12 @@ class SpatialGrid():
         for case in list_of_adjacent_cases:
             fishes_in_adjacent_cases += self.square_case_to_fishes[case]
 
-        for other in fishes_in_adjacent_cases:
-            if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
-                if isinstance(other, fish_class.Fish):
-                    fish.neighbors.append(other)
-                elif isinstance(other, sharks_class.Shark):
-                    fish.sharks_in_sight.append(other)
+        for other_fish in fishes_in_adjacent_cases:
+            if fish.distance_to(other_fish) < fish.field_of_view:
+                if isinstance(other_fish, fish_class.Fish):
+                    fish.neighbors.append(other_fish)
+                elif isinstance(other_fish, sharks_class.Shark):
+                    fish.sharks_in_sight.append(other_fish)
 
     # Populate fish.food_in_sight with food objects within detection range
     # Food within FOOD_SIZE (eating range) is consumed and added to the removal list
@@ -87,7 +87,7 @@ class SpatialGrid():
         fish.food_in_sight = {}
         food_to_remove = []
         for food in foods:
-            distance_to_food = fish.distance_to(food.position_x, food.position_y)
+            distance_to_food = fish.distance_to(food)
             if distance_to_food < world_parameters.FOOD_SIZE:
                 food_to_remove.append(food)
             elif distance_to_food < food.range_of_detection:

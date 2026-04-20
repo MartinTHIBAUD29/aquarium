@@ -43,7 +43,7 @@ class ParentSystem():
         distance_to_closest_fish = np.inf
         closest_fish = None
         for curent_fish in list_of_fish:
-            distance_to_current_fish = fish.distance_to(curent_fish.position_x, curent_fish.position_y)
+            distance_to_current_fish = fish.distance_to(curent_fish)
             if distance_to_current_fish < distance_to_closest_fish:
                 closest_fish = curent_fish
                 distance_to_closest_fish = distance_to_current_fish

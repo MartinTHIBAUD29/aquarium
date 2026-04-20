@@ -11,10 +11,10 @@ class Creature:
         
         
     # Return the euclidean distance between this fish and any (x, y) position
-    def distance_to(self, object_position_x, object_position_y):
+    def distance_to(self, object):
         distance = np.sqrt(
-                (self.position_x - object_position_x)**2 + 
-                ((self.position_y - object_position_y)**2))
+                (self.position_x - object.position_x)**2 + 
+                ((self.position_y - object.position_y)**2))
         return distance
 
 
