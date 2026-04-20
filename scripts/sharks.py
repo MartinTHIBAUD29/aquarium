@@ -22,7 +22,7 @@ class Shark(creature.Creature):
 
         elif np.random.rand() < world_parameters.RANDON_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
-            self.smooth_rotation(last_speed_x, last_speed_y, 45)
+            self.smooth_rotation(last_speed_x, last_speed_y, 90)
 
         self.handle_obstacles()
         self.limit_speed()

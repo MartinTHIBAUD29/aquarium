@@ -80,6 +80,16 @@ class SpatialGrid():
                 elif isinstance(other_fish, sharks_class.Shark):
                     fish.sharks_in_sight.append(other_fish)
 
+    # For a specific shark, return every fish that is in range of beeing eaten
+    # the is instance check is done to avoid removing sharks
+    def find_fish_eaten_by_shark(self, shark):
+        fish_eaten_by_shark = []
+        for fish in shark.neighbors:
+            if shark.distance_to(fish) < world_parameters.SHARK_EATING_RANGE:
+                fish_eaten_by_shark.append(fish)
+        return fish_eaten_by_shark
+    
+
     # Populate fish.food_in_sight with food objects within detection range
     # Food within FOOD_SIZE (eating range) is consumed and added to the removal list
     # Returns the list of food objects to remove from the aquarium this step

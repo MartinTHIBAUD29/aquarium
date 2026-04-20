@@ -17,10 +17,11 @@ FISH_MAX_SPEED = 1.0                      # Maximum fish speed in pixels per ste
 
 # --- Sharks movement ---
 SHARK_FIELD_OF_VIEW = 100  # Radius in pixels for neighbor detection
-SHARK_MAX_SPEED = 1.0
+SHARK_MAX_SPEED = 1.2
+SHARK_EATING_RANGE = 5
 
 # --- Boids rule weights ---
-COHESION_RATIO = 0.01    # Weight applied to the cohesion rule contribution
+COHESION_RATIO = 0.02    # Weight applied to the cohesion rule contribution
 SEPARATION_RATIO = 0.001 # Weight applied to the separation rule contribution
 ALIGNMENT_RATIO = 0.150  # Weight applied to the alignment rule contribution
 SEPARATION_RANGE = 12    # Distance below which two fish repel each other

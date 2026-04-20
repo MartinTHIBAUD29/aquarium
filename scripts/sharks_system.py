@@ -12,8 +12,8 @@ class SharkSystem(parent_system.ParentSystem):
         closest = self.find_closest_fish(shark, shark.neighbors)
         if closest is None:
             return 0, 0
-        speed_x = (closest.position_x - shark.position_x) / 100
-        speed_y = (closest.position_y - shark.position_y) / 100
+        speed_x = (closest.position_x - shark.position_x) / 10
+        speed_y = (closest.position_y - shark.position_y) / 10
         return speed_x, speed_y
 
     # Steers the shark toward the center of mass of all visible fish.

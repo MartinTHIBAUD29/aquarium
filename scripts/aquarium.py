@@ -32,22 +32,39 @@ class Aquarium():
         elif type_of_entity == "food":
             self.foods.append(food.Food(position_x, position_y))
 
+
     #Each step if a food has been eaten, remove it from the aquarium
+    # set(food_to_remove) is done to avoid removing 2 times the same element
     def remove_foods_from_list(self, food_to_remove):
-        for food in food_to_remove:
-            self.foods.remove(food)
+        for food in set(food_to_remove):
+            if food in self.foods:
+                self.foods.remove(food)
+
+
+    #Each step if a food has been eaten, remove it from the aquarium
+    def remove_fish_from_list(self, fish_to_remove):
+        for fish in set(fish_to_remove):
+            if fish in self.fishes:
+                self.fishes.remove(fish)
 
     # Each step, update for all fishes in the simulation:
     # - the list of its neighbors
     # - list of food in sight
     # Remove foods that are in range of being eaten
     def refresh_neighborhood(self):
-        self.grid_calculation.update_grid(self.fishes, self.foods)        
+        self.grid_calculation.update_grid(self.fishes, self.foods)    
+        fish_to_remove = [] 
+        food_to_remove = []   
         for current_fish in self.fishes:
             self.grid_calculation.find_fish_neighbors(current_fish)
-            
-            food_to_remove = self.grid_calculation.find_food_in_sight(current_fish, self.foods)
-            self.remove_foods_from_list(food_to_remove)
+            if isinstance(current_fish,sharks.Shark):
+                fish_to_remove += self.grid_calculation.find_fish_eaten_by_shark(current_fish)
+            else:
+                food_to_remove += self.grid_calculation.find_food_in_sight(current_fish, self.foods)
+        
+        self.remove_fish_from_list(fish_to_remove)        
+        self.remove_foods_from_list(food_to_remove)
+
 
     # Function called by main to update the Aquarium each step
     # 1st update the list of neighbors / food of all fishes
