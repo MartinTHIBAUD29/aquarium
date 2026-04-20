@@ -44,7 +44,7 @@ class Fish(creature.Creature):
 
         if self.sharks_in_sight != []:
             self.calculate_fear_speed(sharks_calculation)
-            self.max_speed = 2
+            self.max_speed = world_parameters.FISH_MAX_SPEED_IN_CHASE
         
         elif self.food_in_sight != {}:
             self.go_for_closest_food()

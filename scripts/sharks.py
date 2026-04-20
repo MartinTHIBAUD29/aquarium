@@ -12,6 +12,7 @@ class Shark(creature.Creature):
  
 
     def calculate_speed(self, boids_calculation, sharks_calculation):
+        self.max_speed = world_parameters.SHARK_MAX_SPEED
         last_speed_x = self.speed_x
         last_speed_y = self.speed_y
 
@@ -19,6 +20,7 @@ class Shark(creature.Creature):
             speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.chase_closest_fish(self)
             self.speed_x += speed_cohesion_rule_x
             self.speed_y += speed_cohesion_rule_y
+            self.max_speed = world_parameters.SHARK_MAX_SPEED_IN_CHASE
 
         elif np.random.rand() < world_parameters.RANDON_MOVEMENT_PROBABILITY:
             self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5

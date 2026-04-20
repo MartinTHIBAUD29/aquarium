@@ -5,7 +5,7 @@ class Creature:
     def __init__(self, position_x, position_y):
         self.position_x,  self.position_y = position_x, position_y
         _angle = 2 * np.pi * np.random.rand()
-        _speed = self.max_speed * np.random.rand()
+        _speed = self.max_speed * (0.7 + 0.3 * np.random.rand())
         self.speed_x, self.speed_y = _speed * np.cos(_angle), _speed * np.sin(_angle)  # Initial speed is random
         self.neighbors = [] #List of fish within field of view, updated each step
         self.sharks_in_sight = []

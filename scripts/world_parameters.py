@@ -14,11 +14,14 @@ TARGET_FPS = 120                # Maximum frames (cycles) per second
 MAX_TURN_DEG = 2                    # Maximum heading change per step in degrees
 RANDON_MOVEMENT_PROBABILITY = 0.000  # Probability of random wandering each step
 FISH_FIELD_OF_VIEW = 60             # Radius in pixels for neighbor detection
-FISH_MAX_SPEED = 1                      # Maximum fish speed in pixels per step
+FISH_MAX_SPEED = 1.0                      # Maximum fish speed in pixels per step
+FISH_MAX_SPEED_IN_CHASE = 2.0             # Maximum fish speed in pixels per step when shark in sight
+
 
 # --- Sharks movement ---
 SHARK_FIELD_OF_VIEW = 100  # Radius in pixels for neighbor detection
-SHARK_MAX_SPEED = 2.5
+SHARK_MAX_SPEED = 1.5
+SHARK_MAX_SPEED_IN_CHASE = 2.3
 SHARK_EATING_RANGE = 5
 
 # --- Boids rule weights ---
