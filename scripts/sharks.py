@@ -4,10 +4,10 @@ from scripts import creature, world_parameters
 
 class Shark(creature.Creature):
     def __init__(self, position_x, position_y):
-        super().__init__(position_x, position_y)
         self.field_of_view = world_parameters.SHARK_FIELD_OF_VIEW
         self.color = world_parameters.SHARK_COLOR
         self.max_speed = world_parameters.SHARK_MAX_SPEED
+        super().__init__(position_x, position_y)
 
  
 

@@ -4,10 +4,11 @@ from scripts import world_parameters
 class Creature:
     def __init__(self, position_x, position_y):
         self.position_x,  self.position_y = position_x, position_y
-        self.speed_x, self.speed_y = 2* np.random.rand() - 1 , 2* np.random.rand() - 1 #Initial speed is random
+        _angle = 2 * np.pi * np.random.rand()
+        _speed = self.max_speed * np.random.rand()
+        self.speed_x, self.speed_y = _speed * np.cos(_angle), _speed * np.sin(_angle)  # Initial speed is random
         self.neighbors = [] #List of fish within field of view, updated each step
         self.sharks_in_sight = []
-        self.max_speed = None
         
         
     # Return the euclidean distance between this fish and any (x, y) position

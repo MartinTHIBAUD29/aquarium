@@ -3,11 +3,11 @@ from scripts import creature, world_parameters
 
 class Fish(creature.Creature):
     def __init__(self, position_x, position_y):
-        super().__init__(position_x, position_y)
         self.food_in_sight = {} #Dict of {food: distance} for food within detection range, updated each step
         self.field_of_view = world_parameters.FISH_FIELD_OF_VIEW
         self.color = world_parameters.FISH_COLOR
         self.max_speed = world_parameters.FISH_MAX_SPEED
+        super().__init__(position_x, position_y)
 
     # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
     def calculate_boids_speed(self, boids_calculation):
@@ -38,12 +38,14 @@ class Fish(creature.Creature):
     # - Food in sight: steer toward the closest food
     # After all contributions, clamp the speed to MAX_SPEED
     def calculate_speed(self, boids_calculation, sharks_calculation):
+        self.max_speed = world_parameters.FISH_MAX_SPEED
         last_speed_x = self.speed_x
         last_speed_y = self.speed_y
 
         if self.sharks_in_sight != []:
             self.calculate_fear_speed(sharks_calculation)
-
+            self.max_speed = 2
+        
         elif self.food_in_sight != {}:
             self.go_for_closest_food()
 
