@@ -1,6 +1,6 @@
 ﻿# --- Screen ---
-SCREEN_WIDTH = 1500
-SCREEN_HEIGHT = 900
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 700
 
 # --- Tank ---
 TANK_MARGIN = 60       # Distance from the edge where wall-avoidance kicks in
@@ -13,10 +13,11 @@ INITIAL_NUMBER_OF_FISH = 150
 MAX_TURN_DEG = 2                    # Maximum heading change per step in degrees
 RANDOWN_MOVEMENT_PROBABILITY = 0.000  # Probability of random wandering each step
 FISH_FIELD_OF_VIEW = 60             # Radius in pixels for neighbor detection
-MAX_SPEED = 1.0                      # Maximum fish speed in pixels per step
+FISH_MAX_SPEED = 1.0                      # Maximum fish speed in pixels per step
 
 # --- Sharks movement ---
 SHARK_FIELD_OF_VIEW = 100  # Radius in pixels for neighbor detection
+SHARK_MAX_SPEED = 1.0
 
 # --- Boids rule weights ---
 COHESION_RATIO = 0.01    # Weight applied to the cohesion rule contribution

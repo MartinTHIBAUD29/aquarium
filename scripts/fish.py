@@ -7,6 +7,7 @@ class Fish(creature.Creature):
         self.food_in_sight = {} #Dict of {food: distance} for food within detection range, updated each step
         self.field_of_view = world_parameters.FISH_FIELD_OF_VIEW
         self.color = world_parameters.FISH_COLOR
+        self.max_speed = world_parameters.FISH_MAX_SPEED
 
     # Apply the boids speed contribution calculated by BoidsSystem to this fish velocity
     def calculate_boids_speed(self, sharks_calculation):
@@ -55,5 +56,5 @@ class Fish(creature.Creature):
             self.handle_obstacles()
             self.smooth_rotation(last_speed_x, last_speed_y)
 
-        self.limit_speed(world_parameters.MAX_SPEED)
+        self.limit_speed()
 

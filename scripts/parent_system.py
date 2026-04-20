@@ -36,3 +36,13 @@ class ParentSystem():
         mean_speed_of_neighbors_y /= len(list_of_fish)
 
         return mean_speed_of_neighbors_x, mean_speed_of_neighbors_y
+    
+    def find_closest_fish(self, fish, list_of_fish):
+        distance_to_closest_fish = np.inf
+        closest_fish = None
+        for curent_fish in list_of_fish:
+            distance_to_current_fish = fish.distance_to(curent_fish.position_x, curent_fish.position_x)
+            if distance_to_current_fish < distance_to_closest_fish:
+                closest_fish = curent_fish
+                distance_to_closest_fish = distance_to_current_fish
+        return(closest_fish)

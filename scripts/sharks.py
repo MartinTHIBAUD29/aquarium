@@ -7,14 +7,17 @@ class Shark(creature.Creature):
         super().__init__(position_x, position_y)
         self.field_of_view = world_parameters.SHARK_FIELD_OF_VIEW
         self.color = world_parameters.SHARK_COLOR
+        self.max_speed = world_parameters.SHARK_MAX_SPEED
 
+ 
 
     def calculate_speed(self, boids_calculation, sharks_calculation):
         last_speed_x = self.speed_x
         last_speed_y = self.speed_y
 
         if self.neighbors != {}:
-            speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.cohesion_toward_fish(self)
+            speed_cohesion_rule_x, speed_cohesion_rule_y= sharks_calculation.go_for_closest_fish(self)
+            # speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.cohesion_toward_fish(self)
             self.speed_x += speed_cohesion_rule_x
             self.speed_y += speed_cohesion_rule_y
 
@@ -24,7 +27,7 @@ class Shark(creature.Creature):
             self.smooth_rotation(last_speed_x, last_speed_y, 45)
 
         self.handle_obstacles()
-        self.limit_speed(world_parameters.MAX_SPEED)
+        self.limit_speed()
 
 
 

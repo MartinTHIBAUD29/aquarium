@@ -7,6 +7,7 @@ class Creature:
         self.speed_x, self.speed_y = 2* np.random.rand() - 1 , 2* np.random.rand() - 1 #Initial speed is random
         self.neighbors = [] #List of fish within field of view, updated each step
         self.sharks_in_sight = []
+        self.max_speed = None
         
         
     # Return the euclidean distance between this fish and any (x, y) position
@@ -50,11 +51,11 @@ class Creature:
         self.speed_x = np.cos(np.deg2rad(final_angle)) * speed
         self.speed_y = np.sin(np.deg2rad(final_angle)) * speed
 
-    def limit_speed(self, max_speed):
+    def limit_speed(self):
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)
-        if speed > max_speed:
-            self.speed_x = (self.speed_x / speed) * max_speed
-            self.speed_y = (self.speed_y / speed) * max_speed
+        if speed > self.max_speed:
+            self.speed_x = (self.speed_x / speed) * self.max_speed
+            self.speed_y = (self.speed_y / speed) * self.max_speed
             
     # Update the fish velocity then advance its position by one step
     # Clamp position to screen bounds to prevent escaping the tank
