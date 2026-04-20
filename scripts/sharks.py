@@ -16,8 +16,7 @@ class Shark(creature.Creature):
         last_speed_y = self.speed_y
 
         if self.neighbors != {}:
-            speed_cohesion_rule_x, speed_cohesion_rule_y= sharks_calculation.go_for_closest_fish(self)
-            # speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.cohesion_toward_fish(self)
+            speed_cohesion_rule_x, speed_cohesion_rule_y = sharks_calculation.chase_closest_fish(self)
             self.speed_x += speed_cohesion_rule_x
             self.speed_y += speed_cohesion_rule_y
 
