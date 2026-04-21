@@ -23,8 +23,9 @@ class Shark(creature.Creature):
             self.max_speed = world_parameters.SHARK_MAX_SPEED_IN_CHASE
 
         elif np.random.rand() < world_parameters.RANDON_MOVEMENT_PROBABILITY:
-            self.speed_x, self.speed_y = np.random.rand() - 0.5 , np.random.rand() - 0.5
-            self.smooth_rotation(last_speed_x, last_speed_y, 90)
+            _angle = 2 * np.pi * np.random.rand()
+            _speed = self.max_speed * (0.7 + 0.3 * np.random.rand())
+            self.speed_x, self.speed_y = _speed * np.cos(_angle), _speed * np.sin(_angle)  # Initial speed is random
 
         self.handle_obstacles()
         self.limit_speed()

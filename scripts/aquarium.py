@@ -36,14 +36,14 @@ class Aquarium():
     #Each step if a food has been eaten, remove it from the aquarium
     # set(food_to_remove) is done to avoid removing 2 times the same element
     def remove_foods_from_list(self, food_to_remove):
-        for food in set(food_to_remove):
+        for food in food_to_remove:
             if food in self.foods:
                 self.foods.remove(food)
 
 
     #Each step if a food has been eaten, remove it from the aquarium
     def remove_fish_from_list(self, fish_to_remove):
-        for fish in set(fish_to_remove):
+        for fish in fish_to_remove:
             if fish in self.fishes:
                 self.fishes.remove(fish)
 

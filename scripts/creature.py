@@ -39,7 +39,7 @@ class Creature:
     # Limit the turn applied this step to max_turn_deg degrees
     # Keeps the total speed magnitude unchanged, only rotates the direction
     def smooth_rotation(self, last_speed_x, last_speed_y, max_turn_deg = world_parameters.MAX_TURN_DEG):
-        speed = np.hypot(self.speed_x, self.speed_y)
+        
 
         angle_last = np.degrees(np.arctan2(last_speed_y, last_speed_x))
         angle_current = np.degrees(np.arctan2(self.speed_y, self.speed_x))
@@ -48,9 +48,14 @@ class Creature:
         rotation_angle = (angle_current - angle_last + 180) % 360 - 180
         clamped_rotation = np.clip(rotation_angle, -max_turn_deg, max_turn_deg)
         final_angle = angle_last + clamped_rotation
+        self.change_direction(final_angle)
+        
+    #Utility fonction, used for keeping speed but in in a specific direction
+    def change_direction(self, angle_in_rad):
+        speed = np.hypot(self.speed_x, self.speed_y)
+        self.speed_x = np.cos(np.deg2rad(angle_in_rad)) * speed
+        self.speed_y = np.sin(np.deg2rad(angle_in_rad)) * speed
 
-        self.speed_x = np.cos(np.deg2rad(final_angle)) * speed
-        self.speed_y = np.sin(np.deg2rad(final_angle)) * speed
 
     def limit_speed(self):
         speed = np.sqrt(self.speed_x**2 + self.speed_y**2)

@@ -7,19 +7,19 @@ TANK_MARGIN = 60       # Distance from the edge where wall-avoidance kicks in
 WALL_PUSH_STRENGTH = 0.002  # Force applied per pixel inside the margin zone
 
 # --- Simulation ---
-INITIAL_NUMBER_OF_FISH = 75
+INITIAL_NUMBER_OF_FISH = 25
 TARGET_FPS = 120                # Maximum frames (cycles) per second
 
 # --- Fish movement ---
 MAX_TURN_DEG = 2                    # Maximum heading change per step in degrees
-RANDON_MOVEMENT_PROBABILITY = 0.000  # Probability of random wandering each step
+RANDON_MOVEMENT_PROBABILITY = 0.005  # Probability of random wandering each step
 FISH_FIELD_OF_VIEW = 60             # Radius in pixels for neighbor detection
 FISH_MAX_SPEED = 1.0                      # Maximum fish speed in pixels per step
 FISH_MAX_SPEED_IN_CHASE = 2.0             # Maximum fish speed in pixels per step when shark in sight
 
 
 # --- Sharks movement ---
-SHARK_FIELD_OF_VIEW = 100  # Radius in pixels for neighbor detection
+SHARK_FIELD_OF_VIEW = 60  # Radius in pixels for neighbor detection
 SHARK_MAX_SPEED = 1.5
 SHARK_MAX_SPEED_IN_CHASE = 2.3
 SHARK_EATING_RANGE = 5
