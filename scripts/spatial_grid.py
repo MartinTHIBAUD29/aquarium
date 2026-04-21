@@ -1,4 +1,6 @@
-﻿from scripts import world_parameters
+from scripts import world_parameters, sharks
+import scripts.fish as fish_class
+import scripts.sharks as sharks_class
 
 # Divides the screen into a uniform grid of cells to optimise neighbor searches
 # Instead of checking every fish pair, only fish in adjacent cells are compared
@@ -61,8 +63,9 @@ class SpatialGrid():
     # Populate fish.neighbors with all fish within field_of_view distance
     # Only fish in the 3x3 block of cells around the current fish are checked,
     # reducing the search from O(n^2) to O(k) where k << n
-    def find_fish_neighbors(self, fish, fishes):
+    def find_fish_neighbors(self, fish):
         fish.neighbors = []
+        fish.sharks_in_sight = []
         fishes_in_adjacent_cases = []
         column_of_fish, row_of_fish = self.get_fish_square_case(fish)
         list_of_adjacent_cases = self.map_of_adjacent_cases[(column_of_fish, row_of_fish)]
@@ -70,13 +73,22 @@ class SpatialGrid():
         for case in list_of_adjacent_cases:
             fishes_in_adjacent_cases += self.square_case_to_fishes[case]
 
-        # for other in fishes:
-        #     if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
-        #         fish.neighbors.append(other)
+        for other_fish in fishes_in_adjacent_cases:
+            if fish.distance_to(other_fish) < fish.field_of_view:
+                if isinstance(other_fish, fish_class.Fish):
+                    fish.neighbors.append(other_fish)
+                elif isinstance(other_fish, sharks_class.Shark):
+                    fish.sharks_in_sight.append(other_fish)
 
-        for other in fishes_in_adjacent_cases:
-            if fish.distance_to(other.position_x, other.position_y) < fish.field_of_view:
-                fish.neighbors.append(other)
+    # For a specific shark, return every fish that is in range of beeing eaten
+    # the is instance check is done to avoid removing sharks
+    def find_fish_eaten_by_shark(self, shark):
+        fish_eaten_by_shark = []
+        for fish in shark.neighbors:
+            if shark.distance_to(fish) < world_parameters.SHARK_EATING_RANGE:
+                fish_eaten_by_shark.append(fish)
+        return fish_eaten_by_shark
+    
 
     # Populate fish.food_in_sight with food objects within detection range
     # Food within FOOD_SIZE (eating range) is consumed and added to the removal list
@@ -85,7 +97,7 @@ class SpatialGrid():
         fish.food_in_sight = {}
         food_to_remove = []
         for food in foods:
-            distance_to_food = fish.distance_to(food.position_x, food.position_y)
+            distance_to_food = fish.distance_to(food)
             if distance_to_food < world_parameters.FOOD_SIZE:
                 food_to_remove.append(food)
             elif distance_to_food < food.range_of_detection:

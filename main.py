@@ -1,5 +1,5 @@
 ﻿import pygame
-from scripts import aquarium, ui
+from scripts import aquarium, ui, world_parameters
 
 
 # Entry point for the aquarium simulation
@@ -12,6 +12,7 @@ def run():
 
     interface = ui.UserInterface()
     tank = aquarium.Aquarium()
+    clock = pygame.time.Clock()
 
     while interface.running:
         for event in pygame.event.get():
@@ -21,8 +22,9 @@ def run():
 
         interface.render_tank(tank)
 
-    pygame.quit()
+        clock.tick(world_parameters.TARGET_FPS)
 
+    pygame.quit()
 
 if __name__ == "__main__":
     run()
